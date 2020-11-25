@@ -7,12 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class StringCalculatorShould {
 
-    private StringCalculator calculator;
-
-    @Before
-    public void setup(){
-        calculator = new StringCalculator();
-    }
+    private StringCalculator calculator = new StringCalculator();
 
     @Test
     public void return_0_when_given_String_is_empty(){
@@ -24,6 +19,13 @@ public class StringCalculatorShould {
         assertThat(calculator.add("0")).isEqualTo(0);
         assertThat(calculator.add("2")).isEqualTo(2);
         assertThat(calculator.add("10")).isEqualTo(10);
+    }
+
+    @Test
+    public void return_sum_of_numbers_when_given_2_numbers(){
+        assertThat((calculator.add("1,1"))).isEqualTo(2);
+        assertThat((calculator.add("1,2"))).isEqualTo(3);
+        assertThat((calculator.add("2,3"))).isEqualTo(5);
     }
 
 
