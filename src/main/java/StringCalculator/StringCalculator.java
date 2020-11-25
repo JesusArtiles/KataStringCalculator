@@ -8,10 +8,19 @@ public class StringCalculator {
         String[] parts = numbers.split(",");
         if(parts.length == 1) {
             return Integer.parseInt(numbers);
-        } else if (parts.length == 2) {
-            return Integer.parseInt(parts[0]) + Integer.parseInt(parts[1]);
+        } else if (parts.length > 1) {
+            return getSum(parts);
         }
 
         return 0;
+    }
+
+    private int getSum(String[] parts) {
+        int sumResult = 0;
+
+        for(String s: parts) {
+            sumResult += Integer.parseInt(s);
+        }
+        return sumResult;
     }
 }
