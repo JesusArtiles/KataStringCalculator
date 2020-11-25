@@ -5,7 +5,9 @@ public class StringCalculator {
     public int add(String numbers){
         if(numbers.length() == 0) return 0;
 
-        String[] parts = numbers.split(",");
+        String regex = "[,\n]";
+
+        String[] parts = numbers.split(regex);
         if(parts.length == 1) {
             return Integer.parseInt(numbers);
         } else if (parts.length > 1) {

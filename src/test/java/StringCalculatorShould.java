@@ -26,6 +26,8 @@ public class StringCalculatorShould {
         assertThat((calculator.add("1,1"))).isEqualTo(2);
         assertThat((calculator.add("1,2"))).isEqualTo(3);
         assertThat((calculator.add("2,3"))).isEqualTo(5);
+        assertThat((calculator.add("2,3"))).isEqualTo(5);
+
     }
 
     @Test
@@ -33,8 +35,10 @@ public class StringCalculatorShould {
         assertThat((calculator.add("1,1,1"))).isEqualTo(3);
         assertThat((calculator.add("1,2,5,10"))).isEqualTo(18);
         assertThat((calculator.add("2,30,2,3,4,5"))).isEqualTo(46);
+
+        assertThat((calculator.add("1\n1"))).isEqualTo(2);
+        assertThat((calculator.add("3\n1,1"))).isEqualTo(5);
+        assertThat((calculator.add("1\n8\n1,3,1"))).isEqualTo(14);
     }
-
-
-
+    
 }
