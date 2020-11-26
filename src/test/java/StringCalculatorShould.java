@@ -49,7 +49,7 @@ public class StringCalculatorShould {
         assertThat((calculator.add("//@\n1@2@3"))).isEqualTo(6);
 
         assertThat((calculator.add("//[@@@@@]\n1@@@@2@@@@3"))).isEqualTo(6);
-
+        assertThat(calculator.add("//[*][%]\n1*2%3")).isEqualTo(6);
     }
 
     @Rule

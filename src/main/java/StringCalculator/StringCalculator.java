@@ -1,5 +1,10 @@
 package StringCalculator;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class StringCalculator {
 
     private String BASIC_REGEX = "[,\n]";
@@ -14,17 +19,12 @@ public class StringCalculator {
             }
             return Integer.parseInt(numbers);
         }
-
-        String[] regexAndNumbers = getRegexAndNumbers(numbers);
-        numbers = regexAndNumbers[1];
-        String regex = regexAndNumbers[0];
-
-        String[] parts = numbers.split(regex);
-        return getSum(parts);
+        String[] newNumbers = getNumbers(numbers);
+        return performSum(newNumbers);
 
     }
 
-    private int getSum(String[] parts) throws Exception {
+    private int performSum(String[] parts) throws Exception {
         int sumResult = 0;
 
         for(String s: parts) {
@@ -38,37 +38,52 @@ public class StringCalculator {
         return sumResult;
     }
 
-    private String[] getRegexAndNumbers(String numbers){
+    private String[] getNumbers(String numbers) throws Exception {
         String[] result = new String[2];
 
          if(numbers.startsWith("//")){
             String[] parts = numbers.substring(2).split("\n");
-            String[] newNumbers = removeRepeatedDelimiters(parts[1],parts[0]);
-            result[0] = newNumbers[1];
-            result[1] = newNumbers[0];
+            String[] newNumbers = getNumbersToAdd(parts[1],parts[0]);
+            return newNumbers;
         } else {
-            result[0] = BASIC_REGEX;
-            result[1] = numbers;
+            String[] parts = getNumbersToAdd(numbers, BASIC_REGEX);
+            return parts;
         }
-
-        return result;
     }
 
-    private String[] removeRepeatedDelimiters(String numbers, String delimiter) {
-        String result = new String();
-        if(delimiter.startsWith("[") && delimiter.endsWith("]")){
-            delimiter = delimiter.substring(1,delimiter.length()-1).substring(0,1);
+    private String[] getNumbersToAdd(String numbers, String delimiter) throws Exception {
+        if(delimiter.startsWith("[") && delimiter.endsWith("]") && !delimiter.equals(BASIC_REGEX)){
+            delimiter = getDelimiters(delimiter);
         }else{
-            delimiter = delimiter.substring(0,1);
+            delimiter = removeDuplicates(delimiter);
         }
-
         String[] parts = numbers.split(delimiter);
+        List<String> results = new ArrayList<>();
+
+        for(String s:parts){
+            if(!s.isEmpty()) results.add(s);
+        }
+        String result[] = new String[results.size()];
+        return results.toArray(result);
+    }
+
+    private String getDelimiters(String delimeter){
+        String[] parts = delimeter.split("]");
+        String result = new String();
         for(int i = 0;i < parts.length;i++){
             if(!parts[i].isEmpty()){
-                result += parts[i] + delimiter;
+                result += parts[i].substring(1,parts[i].length());
             }
         }
-        return new String[]{result.substring(0,result.length()-1),delimiter.substring(0,1)};
+        if(parts.length == 1) return removeDuplicates(result);
+        return "["+ removeDuplicates(result)+"]";
     }
 
+    private String removeDuplicates(String result) {
+        String noDuplicates = Arrays.asList(result.split(""))
+                .stream()
+                .distinct()
+                .collect(Collectors.joining());
+        return noDuplicates;
+    }
 }
