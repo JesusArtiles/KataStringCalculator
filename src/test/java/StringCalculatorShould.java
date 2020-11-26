@@ -61,4 +61,11 @@ public class StringCalculatorShould {
         calculator.add("//;\n1;-2");
     }
 
+    @Test
+    public void return_correct_sum_of_numbers_ignoring_numbers_grater_than_1000() throws Exception {
+        assertThat((calculator.add("1\n8\n1,1001,1"))).isEqualTo(11);
+        assertThat((calculator.add("2,3,10000"))).isEqualTo(5);
+        assertThat((calculator.add("//;\n10000;2"))).isEqualTo(2);
+
+    }
 }

@@ -7,7 +7,11 @@ public class StringCalculator {
     public int add(String numbers) throws Exception {
         if(numbers.length() == 0) return 0;
         if(numbers.split(BASIC_REGEX).length == 1){
-            if(Integer.parseInt(numbers) < 0) throw new Exception("negatives not allowed");
+            if(Integer.parseInt(numbers) < 0) {
+                throw new Exception("negatives not allowed");
+            }else if (Integer.parseInt(numbers) > 1000){
+                return 0;
+            }
             return Integer.parseInt(numbers);
         }
 
@@ -16,21 +20,19 @@ public class StringCalculator {
         String regex = regexAndNumbers[0];
 
         String[] parts = numbers.split(regex);
-        if (parts.length == 1) {
-            return Integer.parseInt(numbers);
-        } else if (parts.length > 1) {
-            return getSum(parts);
-        }
+        return getSum(parts);
 
-        return 0;
     }
 
     private int getSum(String[] parts) throws Exception {
         int sumResult = 0;
 
         for(String s: parts) {
-            if(Integer.parseInt(s) < 0) throw new Exception("negatives not allowed");
-            sumResult += Integer.parseInt(s);
+            if(Integer.parseInt(s) < 0) {
+                throw new Exception("negatives not allowed");
+            } else if(Integer.parseInt(s) <= 1000) {
+                sumResult += Integer.parseInt(s);
+            }
         }
 
         return sumResult;
