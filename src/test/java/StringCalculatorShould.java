@@ -47,6 +47,9 @@ public class StringCalculatorShould {
     public void return_sum_of_numbers_when_given_string_with_delimiter_change() throws Exception {
         assertThat((calculator.add("//;\n1;2"))).isEqualTo(3);
         assertThat((calculator.add("//@\n1@2@3"))).isEqualTo(6);
+
+        assertThat((calculator.add("//[@@@@@]\n1@@@@2@@@@3"))).isEqualTo(6);
+
     }
 
     @Rule
@@ -66,6 +69,5 @@ public class StringCalculatorShould {
         assertThat((calculator.add("1\n8\n1,1001,1"))).isEqualTo(11);
         assertThat((calculator.add("2,3,10000"))).isEqualTo(5);
         assertThat((calculator.add("//;\n10000;2"))).isEqualTo(2);
-
     }
 }

@@ -6,7 +6,7 @@ public class StringCalculator {
 
     public int add(String numbers) throws Exception {
         if(numbers.length() == 0) return 0;
-        if(numbers.split(BASIC_REGEX).length == 1){
+        if(numbers.split(BASIC_REGEX).length == 1 && !(numbers.startsWith("//"))){
             if(Integer.parseInt(numbers) < 0) {
                 throw new Exception("negatives not allowed");
             }else if (Integer.parseInt(numbers) > 1000){
@@ -43,8 +43,9 @@ public class StringCalculator {
 
          if(numbers.startsWith("//")){
             String[] parts = numbers.substring(2).split("\n");
-            result[0] = parts[0];
-            result[1] = parts[1];
+            String[] newNumbers = removeRepeatedDelimiters(parts[1],parts[0]);
+            result[0] = newNumbers[1];
+            result[1] = newNumbers[0];
         } else {
             result[0] = BASIC_REGEX;
             result[1] = numbers;
@@ -52,4 +53,22 @@ public class StringCalculator {
 
         return result;
     }
+
+    private String[] removeRepeatedDelimiters(String numbers, String delimiter) {
+        String result = new String();
+        if(delimiter.startsWith("[") && delimiter.endsWith("]")){
+            delimiter = delimiter.substring(1,delimiter.length()-1).substring(0,1);
+        }else{
+            delimiter = delimiter.substring(0,1);
+        }
+
+        String[] parts = numbers.split(delimiter);
+        for(int i = 0;i < parts.length;i++){
+            if(!parts[i].isEmpty()){
+                result += parts[i] + delimiter;
+            }
+        }
+        return new String[]{result.substring(0,result.length()-1),delimiter.substring(0,1)};
+    }
+
 }
